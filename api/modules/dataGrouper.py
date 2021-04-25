@@ -11,7 +11,7 @@ class dataGrouper(object):
 
     def _group_by_manufacturer(self):
 
-        return self.dataframe.groupby('car_make')
+        return self._dataframe.groupby('car_make')
 
     def _agg_by_mean(self):
 
