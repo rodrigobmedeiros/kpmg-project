@@ -6,9 +6,9 @@ class datasetGenerator(object):
     """
     Class responsible for parse a config.json file into a avaiable dataset.
     """
-    def __init__(self, json_name='config.json'):
+    def __init__(self, json_path='config.json'):
         
-        self._json_path = ''.join(['api/', json_name])
+        self._json_path = json_path
         self._data_filename = self._get_filename_from_json()
         self._dataframe = self._create_dataframe()
 
@@ -22,7 +22,7 @@ class datasetGenerator(object):
 
     def _create_dataframe(self):
         
-        complete_filename = ''.join(['api/src/', self._data_filename])
+        complete_filename = ''.join(['src/', self._data_filename])
         dataframe = pd.read_csv(complete_filename)
         return dataframe
 
@@ -31,8 +31,4 @@ class datasetGenerator(object):
 
         return self._dataframe
 
-teste = datasetGenerator()
-
-print(os.path.dirname(os.path.realpath(__file__)))
-print(teste.dataframe.columns)
-
+datasetGenerator()
