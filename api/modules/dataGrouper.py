@@ -51,13 +51,14 @@ class dataGrouperSpark(dataGrouper):
     def _agg_by_mean(self):
         df_grouped = self._data_grouped_by_manufacturer.mean('car_value')
         df_grouped = df_grouped.withColumn("avg(car_value)", roundp(col("avg(car_value)"), 2))
+        df_grouped = df_grouped.rdd.collec()
         return df_grouped
 
     def _format_data(self):
 
         formatted_data = []
 
-        for row in self._data_agg_by_mean_value.rdd.collect():
+        for row in self._data_agg_by_mean_value:
     
             formatted_data.append({'car_make': row['city'],
                                    'mean_car_value': row['avg(car_value)']})
