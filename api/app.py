@@ -1,5 +1,5 @@
 import sys, os
-from flask import Flask, jsonify, abort
+from flask import Flask, jsonify, abort, render_template
 from modules.datasetGenerator import datasetGenerator, datasetGeneratorSpark
 from modules.dataGrouper import dataGrouper, dataGrouperSpark
 
@@ -97,6 +97,11 @@ def create_app():
                         'city': city,
                         'mean_value': city_mean_value})
 
+
+    @app.route('/', methods=['GET'])
+    def get_doc():
+
+        return render_template('doc.html')
 
     @app.errorhandler(404)
     def not_found(error):
