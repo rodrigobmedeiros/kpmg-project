@@ -26,10 +26,7 @@ class datasetGenerator(object):
     def _create_dataframe(self):
         
         complete_filename = ''.join(['src/', self._data_filename])
-        sc = SparkContext()
-        sqlContext = SQLContext(sc)
-        dataframe = sqlContext.read.option("header", True).csv(complete_filename)
-        dataframe = dataframe.withColumn("car_value", col("car_value").cast("double"))
+        dataframe = pd.read_csv(complete_filename)
         return dataframe
 
     @property
@@ -39,4 +36,11 @@ class datasetGenerator(object):
 
 class datasetGeneratorSpark(datasetGenerator):
 
-
+    def _create_dataframe(self):
+        
+        complete_filename = ''.join(['src/', self._data_filename])
+        sc = SparkContext()
+        sqlContext = SQLContext(sc)
+        dataframe = sqlContext.read.option("header", True).csv(complete_filename)
+        dataframe = dataframe.withColumn("car_value", col("car_value").cast("double"))
+        return dataframe
