@@ -1,7 +1,7 @@
 # Mean Car Value API
 ___
 
-This project implements a API that consumes a dataset containing information on car sales. The main objective is obtain use endpoints to obtain mean car values per manufacturer and cities.
+This project implements a API that consumes a dataset containing information on car sales. The main objective is use endpoints to obtain mean car values per manufacturer and cities.
 
 ## Getting Started
 ___
@@ -22,7 +22,7 @@ The application is run on `http://127.0.0.1:5000/` by default.
 
 ### Pre-requisites and docker
 
-To run this project as a docker container, it's necessary to have docker installed, to install it correctly see this link with de orginal [documentarion](https://www.docker.com/).
+To run this project as a docker container, it's necessary to have docker installed, to install it correctly see this link with the orginal [documentarion](https://www.docker.com/).
 Use the dockerfile to create an image and a container to run the application. To do this, follow the commands listed below:
 
 ```
