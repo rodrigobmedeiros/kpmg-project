@@ -88,8 +88,8 @@ def create_app():
         # default column name created when mean was applied.
         try:
             avg_column = 'avg(car_value)'
-            filtered_city = grouped_data_by_city.data_agg_by_mean_value['city' == city]
-            city_mean_value = filtered_city[avg_column]
+            filtered_city = [row for row in grouped_data_by_city.data_agg_by_mean_value if row['city'] == city ]
+            city_mean_value = filtered_city[0][avg_column]
         except:
             abort(404) 
 
