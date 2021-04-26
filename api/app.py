@@ -1,7 +1,7 @@
 import sys, os
 from flask import Flask, jsonify
-from modules.datasetGenerator import datasetGenerator
-from modules.dataGrouper import dataGrouper
+from modules.datasetGenerator import datasetGenerator, datasetGeneratorSpark
+from modules.dataGrouper import dataGrouper, dataGrouperSpark
 
 def create_app(test_config=None):
     """
