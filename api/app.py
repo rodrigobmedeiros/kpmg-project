@@ -1,5 +1,5 @@
 import sys, os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 from modules.datasetGenerator import datasetGenerator, datasetGeneratorSpark
 from modules.dataGrouper import dataGrouper, dataGrouperSpark
 
@@ -27,8 +27,11 @@ def create_app():
         ------
         json with all mean car values by manufacturer included.
         """
-        return jsonify({'success': True,
-                        'manufacturer_mean_values': grouped_data.formatted_data})
+        try:
+            return jsonify({'success': True,
+                            'manufacturer_mean_values': grouped_data.formatted_data})
+        except:
+            abort(400)
 
 
     @app.route('/mean-values-per-manufacturer/<manufacturer>', methods=['GET'])
@@ -44,7 +47,10 @@ def create_app():
         ------                 
         json with mean car value by specific manufacturer.
         """
-        manufacturer_mean_value = grouped_data.data_agg_by_mean_value.loc[manufacturer].values[0]        
+        try:
+            manufacturer_mean_value = grouped_data.data_agg_by_mean_value.loc[manufacturer].values[0]
+        except:
+            abort(404)       
 
         return jsonify({'success': True,
                         'manufacturer': manufacturer,
@@ -59,8 +65,11 @@ def create_app():
         ------
         json with all mean car values by city included.
         """
-        return jsonify({'sucess': True,
-                        'city_mean_values': grouped_data_by_city.formatted_data})
+        try:
+            return jsonify({'sucess': True,
+                            'city_mean_values': grouped_data_by_city.formatted_data})
+        except:
+            abort(400)
 
     @app.route('/mean-values-per-city/<city>', methods=['GET'])
     def get_mean_value_per_city(city):
@@ -77,12 +86,34 @@ def create_app():
         """
 
         # default column name created when mean was applied.
-        avg_column = 'avg(car_value)'
-        filtered_city = grouped_data_by_city.data_agg_by_mean_value['city' == city]
-        city_mean_value = filtered_city[avg_column]      
+        try:
+            avg_column = 'avg(car_value)'
+            filtered_city = grouped_data_by_city.data_agg_by_mean_value['city' == city]
+            city_mean_value = filtered_city[avg_column]
+        except:
+            abort(404) 
 
         return jsonify({'success': True,
                         'city': city,
                         'mean_value': city_mean_value})
+
+
+    @app.errorhandler(404)
+    def not_found(error):
+        """
+        Function to handle 404 error.
+        """
+        return jsonify({'success':False,
+                        'error': 404,
+                        'message': 'resource not found'}), 404
+
+    @app.errorhandler(400)
+    def bad_request(error):
+        """
+        Function to handle 400 error.
+        """
+        return jsonify({'success':False,
+                        'error': 400,
+                        'message': 'bad request'}), 400
     
     return app
