@@ -14286,7 +14286,7 @@ The application is run on <code>http://127.0.0.1:5000/</code> by default.</p>
 <h3 id="Pre-requisites-and-docker">Pre-requisites and docker<a class="anchor-link" href="#Pre-requisites-and-docker">&#182;</a></h3><p>To run this project as a docker container, it's necessary to have docker installed, to install it correctly see this link with de orginal <a href="https://www.docker.com/">documentarion</a>.
 Use the dockerfile to create an image and a container to run the application. To do this, follow the commands listed below:</p>
 
-<pre><code>docker build -t myImage
+<pre><code>docker build -t myImage .
 
 docker run --name myContainer -p myPort:5000 myImage</code></pre>
 <p>To access the application, use the default host with the defined port.</p>
