@@ -1,8 +1,11 @@
 import pandas as pd
+from pyspark.sql import SQLContext
+from pyspark import SparkContext
+from pyspark.sql.functions import col, column, round as roundp
 
 class dataGrouper(object):
 
-    def __init__(self, dataframe: pd.DataFrame):
+    def __init__(self, dataframe):
 
         self._dataframe = dataframe 
         self._data_grouped_by_manufacturer = self._group_by_manufacturer()
@@ -38,3 +41,25 @@ class dataGrouper(object):
     def formatted_data(self):
 
         return self._formatted_data
+
+class dataGrouperSpark(dataGrouper):
+
+    def _group_by_manufacturer(self):
+        
+        return self._dataframe.groupby('city')
+
+    def _agg_by_mean(self):
+        df_grouped = self._data_grouped_by_manufacturer.mean('car_value')
+        df_grouped = df_grouped.withColumn("avg(car_value)", roundp(col("avg(car_value)"), 2))
+        return df_grouped
+
+    def _format_data(self):
+
+        formatted_data = []
+
+        for row in self._data_agg_by_mean_value.rdd.collect():
+    
+            formatted_data.append({'car_make': row['city'],
+                                   'mean_car_value': row['avg(car_value)']})
+
+        return formatted_data
