@@ -26,7 +26,7 @@ To run this project as a docker container, it's necessary to have docker install
 Use the dockerfile to create an image and a container to run the application. To do this, follow the commands listed below:
 
 ```
-docker build -t myImage
+docker build -t myImage .
 
 docker run --name myContainer -p myPort:5000 myImage
 ```
