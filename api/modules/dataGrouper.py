@@ -100,7 +100,7 @@ class dataGrouperSpark(dataGrouper):
 
         for row in self._data_agg_by_mean_value:
     
-            formatted_data.append({'car_make': row['city'],
+            formatted_data.append({'city': row['city'],
                                    'mean_car_value': row['avg(car_value)']})
 
         return formatted_data
